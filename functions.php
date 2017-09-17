@@ -5,7 +5,7 @@
  */
 function siteName()
 {
-    echo config('name');
+    return config('name');
 }
 
 /**
@@ -13,7 +13,7 @@ function siteName()
  */
 function siteVersion()
 {
-    echo config('version');
+    return config('version');
 }
 
 /**
@@ -27,7 +27,7 @@ function navMenu($sep = ' | ')
         $nav_menu .= '<a href="/'.(config('pretty_uri') || $uri == '' ? '' : '?page=').$uri.'">'.$name.'</a>'.$sep;
     }
 
-    echo trim($nav_menu, $sep);
+    return trim($nav_menu, $sep);
 }
 
 /**
@@ -39,7 +39,7 @@ function pageTitle()
 {
     $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Home';
 
-    echo ucwords(str_replace(array('-', '_'), ' ', $page));
+    return ucwords(str_replace(array('-', '_'), ' ', $page));
 }
 
 /**
@@ -47,23 +47,45 @@ function pageTitle()
  * the static pages inside the pages/ directory.
  * When not found, display the 404 error page.
  */
-function pageContent()
+function pageContent(Smarty $smarty)
 {
     $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
-    $path = getcwd().'/'.config('content_path').'/'.$page.'.php';
+    switch ($page) {
+        case 'processing_games':
+            $path = getcwd().'/'.config('processing_games_path');
+            $filesTemp = array_diff(scandir($path), array('.', '..'));
+            $files = array();
+            foreach ($filesTemp as $f){
+                if(preg_match('/^\w+[.]pde$/', $f)){
+                    $files[] = $f;
+                }
+            }
+            $smarty->assign('processingGames', $files);
+            $smarty->assign('processingGamesPath', config('processing_games_path'));
+            break;
+    }
 
+    $path = getcwd() . '/' . config('content_path') . '/' . $page . '.html';
     if (file_exists(filter_var($path, FILTER_SANITIZE_URL))) {
-        include $path;
+        return file_get_contents($path);
     } else {
-        include config('content_path').'/404.php';
+        return file_get_contents(config('content_path') . '/404.html');
     }
 }
+
 
 /**
  * Starts everything and displays the template.
  */
 function run()
 {
-    include config('template_path').'/template.php';
+    $tpl = new SMTemplate();
+    $smarty = $tpl->getSmarty();
+    $smarty->assign('pageTitle', pageTitle());
+    $smarty->assign('pageContent', pageContent($smarty));
+    $smarty->assign('navMenu', navMenu());
+    $smarty->assign('siteName', siteName());
+    $smarty->assign('siteVersion', siteVersion());
+    $tpl->render('template');
 }
