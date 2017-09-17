@@ -4,6 +4,7 @@
  * Used to store website configuration information.
  *
  * @var string
+ * @return boolean
  */
 function config($key = '')
 {
@@ -14,6 +15,7 @@ function config($key = '')
             'about-us' => 'About Us',
             'products' => 'Products',
             'contact' => 'Contact',
+            'processing_games' => ' Processing Games'
         ],
         'template_path' => 'template',
         'content_path' => 'content',
