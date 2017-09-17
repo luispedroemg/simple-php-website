@@ -1,0 +1,6 @@
+{
+	"require": {
+		"capistrano" : ">=3.9",
+		"smarty/smarty": "~3.1"
+	}
+}
