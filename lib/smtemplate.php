@@ -1,5 +1,5 @@
 <?php
-require_once('../vendor/smarty/smarty/libs/Smarty.class.php');
+require_once('vendor/smarty/smarty/libs/Smarty.class.php');
 require_once('smtemplate_config.php');
 
 class SMTemplate{
