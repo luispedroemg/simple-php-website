@@ -17,6 +17,7 @@ function config($key = '')
             'contact' => 'Contact',
             'processing_games' => ' Processing Games'
         ],
+        'processing_games_path' => 'content/processing-games',
         'template_path' => 'template',
         'content_path' => 'content',
         'pretty_uri' => true,
