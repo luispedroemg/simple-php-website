@@ -39,7 +39,7 @@ function pageTitle()
 {
     $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Home';
 
-    echo ucwords(str_replace('-', ' ', $page));
+    echo ucwords(str_replace(array('-', '_'), ' ', $page));
 }
 
 /**
