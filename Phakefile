@@ -1,11 +1,14 @@
 <?php
-	desc("Migrate the database");
-	task('db:migrate', function(){
-		system("./bin/phinx migrate");
-	});
+	define('DEPLOY_PATH', '/srv/www/simple-php-website/current');
+	task('default', 'echo "Phake is working"');	
 
-	desc("Create a phinx db migration (desc)");
-	task("db:create_migration", function($args){
-		$desc = (!empty($args['desc'])) ? $args['desc'] : 'default migration';
-        	system("./bin/phinx create ".$desc);
+	group('db', function(){
+		task('migrate', function(){
+			system(DEPLOY_PATH."/bin/phinx -c".DEPLOY_PATH."/phinx.yml migrate");
+		});
+
+		task("create_migration", function($args){
+			$desc = (!empty($args['desc'])) ? $args['desc'] : 'default migration';
+	        	system(DEPLOY_PATH."/bin/phinx -c".DEPLOY_PATH."/phinx.yml create ".$desc);
+		});
 	});
