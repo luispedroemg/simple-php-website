@@ -1,9 +1,7 @@
 {
 	"require": {
 		"smarty/smarty": "~3.1",
-		"robmorgan/phinx": "*"
-	},
-	"require-dev": {
+		"robmorgan/phinx": "*",
 		"jaz303/phake": "*"
 	}
 }
