@@ -4,7 +4,7 @@
 
 	group('db', function(){
 		task('migrate', function(){
-			system(DEPLOY_PATH."/bin/phinx -c".DEPLOY_PATH."/phinx.yml migrate");
+			system(DEPLOY_PATH."/bin/phinx -c".DEPLOY_PATH."/phinx.yml -e production migrate");
 		});
 
 		task("create_migration", function($args){
